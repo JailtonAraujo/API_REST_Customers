@@ -12,4 +12,6 @@ public interface CustomerService {
 	public Optional<Customer> findById (String id);
 	
 	public List<Customer> findAll ();
+	
+	public void deleteById (String id);
 }

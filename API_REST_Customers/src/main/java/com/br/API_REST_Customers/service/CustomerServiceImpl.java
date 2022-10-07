@@ -34,5 +34,12 @@ public class CustomerServiceImpl implements CustomerService{
 		return this.customerRepository.findAll();
 	}
 
+
+	@Override
+	public void deleteById(String id) {
+		this.customerRepository.deleteById(id);
+		
+	}
+
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,9 @@ public class CustomerController {
 		
 		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(dto.getId())).withSelfRel());
 		
-		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findAll()).withRel("Customers list"));
+		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findAll()).withRel("Customers_list"));
+		
+		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).deleteById(dto.getId())).withRel("link_delete"));
 		
 		return ResponseEntity.ok(dto);
 	}
@@ -56,6 +59,8 @@ public class CustomerController {
 			dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(dto.getId())).withSelfRel());
 			
 			dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findAll()).withRel("Customers list"));
+			
+			dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).deleteById(dto.getId())).withRel("link_delete"));
 			
 			return ResponseEntity.ok(dto);
 		}
@@ -83,6 +88,14 @@ public class CustomerController {
 		
 		return new ResponseEntity<CollectionModel<CustomerDTO>>(HttpStatus.NOT_FOUND);
 		
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Customer> deleteById ( @PathVariable(name = "id") String id ) {
+		
+		this.customerService.deleteById(id);
+		
+		return new ResponseEntity<Customer>(HttpStatus.OK);
 		
 	}
 	
