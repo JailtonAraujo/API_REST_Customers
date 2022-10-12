@@ -5,8 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.LookupOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.API_REST_Customers.DTO.CustomerDTO;
+import com.br.API_REST_Customers.DTO.OrderDTO;
 import com.br.API_REST_Customers.document.Customer;
 import com.br.API_REST_Customers.service.CustomerService;
 
@@ -30,6 +35,9 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+
+	@Autowired
+	MongoTemplate mongoTemplate;
 	
 	@PostMapping(value = "/")
 	public ResponseEntity<CustomerDTO> save ( @RequestBody Customer customer ){
@@ -41,9 +49,8 @@ public class CustomerController {
 		
 		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findAll()).withRel("Customers_list"));
 		
-		dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).deleteById(dto.getId())).withRel("link_delete"));
-		
 		return ResponseEntity.ok(dto);
+		
 	}
 	
 	
@@ -60,7 +67,17 @@ public class CustomerController {
 			
 			dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findAll()).withRel("Customers list"));
 			
-			dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).deleteById(dto.getId())).withRel("link_delete"));
+			//IF EXISTS ORDERS IN CUSTOMER ADD HATEOS LINKS
+			if(dto.getOrders().size() > 0) {
+				
+				for (OrderDTO order : dto.getOrders()) {
+					
+					order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(order.getId())).withSelfRel());
+					
+					order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findAll()).withRel("All Orders"));
+				}
+				
+			}
 			
 			return ResponseEntity.ok(dto);
 		}
