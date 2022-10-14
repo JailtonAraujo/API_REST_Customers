@@ -54,7 +54,18 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public List<Customer> findAll() {
-		return this.customerRepository.findAll();
+
+		LookupOperation lookupOperation = LookupOperation.newLookup()
+				.from("order")
+				.localField("ObjectId('_id)")
+				.foreignField("ObjectId('createdBy')")
+				.as("orders");
+
+		Aggregation aggregation = Aggregation.newAggregation(lookupOperation);
+
+		List<Customer> customers = mongoTemplate.aggregate(aggregation,"customer", Customer.class).getMappedResults();
+
+		return customers;
 	}
 
 

@@ -94,7 +94,19 @@ public class CustomerController {
 		if(customers.size() > 0) {
 			
 			List<CustomerDTO> dtos = customers.stream().map(obj -> new CustomerDTO(obj)).collect(Collectors.toList());
-			
+
+			for (CustomerDTO dto : dtos){
+
+				dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(dto.getId())).withSelfRel());
+
+				if(dto.getOrders().size() > 0){
+					dto.getOrders().forEach( order ->
+						order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(order.getId())).withSelfRel())
+					);
+				}
+
+			}
+
 			dtos.forEach(element -> 
 				element.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(element.getId())).withSelfRel())
 			);
