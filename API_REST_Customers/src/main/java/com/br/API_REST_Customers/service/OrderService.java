@@ -14,4 +14,6 @@ public interface OrderService {
 	public Optional<Order> findById(String id);
 	
 	public List<Order> findAll();
+	
+	public void deleteById(String id);
 }

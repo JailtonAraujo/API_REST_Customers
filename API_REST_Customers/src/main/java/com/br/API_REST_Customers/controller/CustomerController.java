@@ -74,7 +74,7 @@ public class CustomerController {
 					
 					order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(order.getId())).withSelfRel());
 					
-					order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findAll()).withRel("All Orders"));
+					//order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findAll()).withRel("All Orders"));
 				}
 				
 			}
@@ -101,15 +101,15 @@ public class CustomerController {
 
 				if(dto.getOrders().size() > 0){
 					dto.getOrders().forEach( order ->
-						order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(order.getId())).withSelfRel())
+						order.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(order.getId())).withRel("Customer_list"))
 					);
 				}
 
 			}
 
-			dtos.forEach(element -> 
-				element.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(element.getId())).withSelfRel())
-			);
+//			dtos.forEach(element ->
+//				element.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CustomerController.class).findById(element.getId())).withSelfRel())
+//			);
 			
 			
 			return ResponseEntity.ok(CollectionModel.of(dtos));

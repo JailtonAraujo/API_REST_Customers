@@ -37,4 +37,11 @@ public class OrderServiceImpl implements OrderService{
 		return orderRepository.findAll();
 	}
 
+	@Override
+	public void deleteById(String id) {
+
+		 orderRepository.deleteById(id); 
+		
+	}
+
 }

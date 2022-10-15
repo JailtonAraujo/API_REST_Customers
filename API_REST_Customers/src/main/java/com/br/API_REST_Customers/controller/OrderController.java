@@ -10,6 +10,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,11 +72,11 @@ public class OrderController {
 		if(orders.size() > 0) {
 			
 			List<OrderDTO> dtos = orders.stream().map(order ->  new OrderDTO(order)).collect(Collectors.toList());
-			
-			dtos.forEach(dto -> 
-			
+
+			dtos.forEach(dto ->
+
 				dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class).findById(dto.getId())).withSelfRel())
-			
+
 			);
 			
 			return ResponseEntity.ok(CollectionModel.of(dtos));
@@ -84,6 +85,15 @@ public class OrderController {
 		
 		return new ResponseEntity<CollectionModel<OrderDTO>>(HttpStatus.NOT_FOUND);
 		
+	}
+	
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<OrderDTO> deleteById( @PathVariable(name = "id") String id ){
+		
+		this.orderService.deleteById(id);
+		
+		return new ResponseEntity<OrderDTO>(HttpStatus.OK);
 	}
 	
 }

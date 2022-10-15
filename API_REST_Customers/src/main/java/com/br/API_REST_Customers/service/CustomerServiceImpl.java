@@ -3,9 +3,11 @@ package com.br.API_REST_Customers.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.br.API_REST_Customers.document.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.CountOperation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -57,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 		LookupOperation lookupOperation = LookupOperation.newLookup()
 				.from("order")
-				.localField("ObjectId('_id)")
+				.localField("ObjectId('_id')")
 				.foreignField("ObjectId('createdBy')")
 				.as("orders");
 
@@ -71,6 +73,15 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public void deleteById(String id) {
+
+//		MatchOperation matchOperation = Aggregation.match(Criteria.where("ObjectId('createdBy'").is(id));
+//
+//		CountOperation countOperation = Aggregation.count().as("order");
+//
+//		Aggregation aggregation = Aggregation.newAggregation(countOperation);
+//
+//		Long quant = mongoTemplate.aggregate(aggregation,"order", Long.class).getUniqueMappedResult();
+
 		this.customerRepository.deleteById(id);
 		
 	}
