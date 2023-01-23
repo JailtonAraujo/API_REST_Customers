@@ -13,5 +13,13 @@ pipeline{
                 sh 'mvn clean install'
             }
         }
+        stage('building docker image'){
+            steps{
+                echo 'Building docker image'
+                script{
+                    sh 'docker build -t custumerapi .'
+                }
+            }
+        }
     }
 }
