@@ -8,7 +8,8 @@ pipeline{
     stages{
         stage('building project'){
             steps{
-                echo 'Buildingg'
+                echo 'Building maven project'
+                sh 'mvn clean package'
             }
         }
     }
