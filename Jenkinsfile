@@ -13,11 +13,21 @@ pipeline{
                 sh 'mvn clean install'
             }
         }
+
         stage('building docker image'){
             steps{
                 echo 'Building docker image'
                 script{
                     sh 'docker build -t custumerapi .'
+                }
+            }
+        }
+
+        stage('up container'){
+            steps{
+                echo 'uping container'
+                script{
+                    sh 'docker compose up -d'
                 }
             }
         }
