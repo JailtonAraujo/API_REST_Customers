@@ -27,7 +27,6 @@ pipeline{
             steps{
                 echo 'pushung docker hub...'
                 script{
-                    sh 'docker login'
                     sh 'docker push jai1998/api-customer'
                 }
             }
