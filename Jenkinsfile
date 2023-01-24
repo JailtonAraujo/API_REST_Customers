@@ -32,6 +32,7 @@ pipeline{
                     sh 'docker login -u jai1998 -p ${dockerpass}'
                     
                     sh 'docker push jai1998/api-customer'
+
                 }
             }
         }
