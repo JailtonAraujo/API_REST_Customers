@@ -18,8 +18,7 @@ pipeline{
             steps{
                 echo 'Building docker image'
                 script{
-                    // sh 'docker build -t jai1998/api-customer .'
-                    dockerapp = docker.build("jai1998/api-customer",'./')
+                    sh 'docker build -t jai1998/api-customer .'
                 }
             }
         }
@@ -28,9 +27,8 @@ pipeline{
             steps{
                 echo 'pushung docker hub...'
                 script{
-                    // sh 'docker push jai1998/api-customer'
-                    docker.withRegistry('https://registry.hub.docker.com','dockerhub')
-                    dockerapp.push('latest')
+                    sh 'docker login'
+                    sh 'docker push jai1998/api-customer'
                 }
             }
         }
