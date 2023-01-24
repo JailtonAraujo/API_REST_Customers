@@ -27,6 +27,10 @@ pipeline{
             steps{
                 echo 'pushung docker hub...'
                 script{
+                    
+                    withCredentials([string(credentialsId: 'dockerp', variable: 'dockerpass')]) {
+                    sh 'docker login -u jai1998 -p ${dockerpass}'
+                    
                     sh 'docker push jai1998/api-customer'
                 }
             }
