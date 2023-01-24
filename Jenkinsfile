@@ -19,7 +19,7 @@ pipeline{
                 echo 'Building docker image'
                 script{
                     // sh 'docker build -t jai1998/api-customer .'
-                    dockerapp = docker.buid("jai1998/api-customer",'-t ./')
+                    dockerapp = docker.build("jai1998/api-customer",'-t ./')
                 }
             }
         }
