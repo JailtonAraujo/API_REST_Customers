@@ -1,6 +1,6 @@
 services:
   api:
     container_name: api-customer
-    image: custumerapi
+    image: jai1998/api-customer
     ports:
       - "8082:8082"

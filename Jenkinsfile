@@ -18,7 +18,7 @@ pipeline{
             steps{
                 echo 'Building docker image'
                 script{
-                    sh 'docker build -t custumerapi .'
+                    sh 'docker build -t jai1998/api-customer .'
                 }
             }
         }
@@ -28,6 +28,15 @@ pipeline{
                 echo 'uping container'
                 script{
                     sh 'docker compose up -d'
+                }
+            }
+        }
+
+        stage('pushing docker hub'){
+            steps{
+                echo 'pushung docker hub...'
+                script{
+                    sh 'docker push jai1998/api-customer'
                 }
             }
         }
