@@ -23,20 +23,20 @@ pipeline{
             }
         }
 
-        stage('up container'){
-            steps{
-                echo 'uping container'
-                script{
-                    sh 'docker compose up -d'
-                }
-            }
-        }
-
         stage('pushing docker hub'){
             steps{
                 echo 'pushung docker hub...'
                 script{
                     sh 'docker push jai1998/api-customer'
+                }
+            }
+        }
+
+        stage('up container'){
+            steps{
+                echo 'uping container'
+                script{
+                    sh 'docker compose up -d'
                 }
             }
         }
